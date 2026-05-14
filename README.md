@@ -3,6 +3,8 @@
 The purpose of this repository is to not only document my first impressions of Bevy as a software engineer, but also to address some observations and the ways I skirted around issues while using the engine. I have implemented a character controller with gamepad support as well as a level and basic menu system with some interactions (a basic button, two npcs you can speak to). 
 I am open sourcing it under the MIT license in the name of having more than one set of eyes on the pattern as well as help/assist others as the other tutorials I have studied have done. 
 
+https://github.com/user-attachments/assets/3fe2cfb0-036e-44c7-82cd-6dd97bb9e028
+
 
 While studying these examples and attempting to make my own personal project I found that Bevy (at least in its non-appended to/non-forked form) had several configurations/preferences I wished to address:
 
@@ -15,10 +17,14 @@ One of the first minor DRY issues I ran into while creating inputs and interacti
 
 See here that when you speak to the npc, you cannot move because your input context has changed from `Game` to `Menu`:
 
+https://github.com/user-attachments/assets/ae05d161-5c91-4f54-8e88-6e4ccfead4a7
+
 
 The other capability I added was input types. Input types in this context is referring to either the methods of taking in an input and outputting a specific datatype. Within [bidings.ron](./walk-and-talk/assets/bindings.ron) file, there is "JestPressed", "HeldTimed", as well as "Held" for directional movement, jumping, and the generic selection of objects.
 
 See below as I jump at different heights by holding down the button for longer:
+
+https://github.com/user-attachments/assets/05cb4061-8f61-40d7-a17e-72faa79b4f21
 
 
 
@@ -28,11 +34,13 @@ Another thing I noticed was that Bevy gives you lots of freedom of exactly what 
 See below me going from the main menu to the first level with the "new game" button:
 
 
+https://github.com/user-attachments/assets/605ac975-06fc-49d1-9573-a43c3b61a112
+
+
+
 
 ### 3. Prefabs
 When initally learning Unity and Godot, I found that one of the most powerful features were prefabs. While Bevy does have bundles,I found that I was creating lots of the same boilerplate in addition to wanting to keep all the menu components/plugins/messages within the same folder strucutre, I liked the idea of keeping the scenes and menu items in their own respective sections of the code (I have other components of my game that are not here). While doing this did create some boilerplate for me, it also enabled me to significantly reduce the amount of code per level and also create a much more ergonomic plugin experience than what Bevy by default offers. Overall, this is the least polished of my features but I feel as though someone may want to use it in the future beyond just myself (more likely in a more polished format). 
-
-The NPCs, player controller, floor, button as well as other bundles:
 
 
 ## Acknowledgements
