@@ -1,0 +1,68 @@
+use crate::menu::id as menu_ids;
+use crate::menu::layout::MenuLayout;
+use crate::menu::prelude::*;
+use crate::menu::InputContext;
+use bevy::app::AppExit;
+use bevy::prelude::*;
+use bevy::ecs::message::Messages;
+use crate::menu::prefabs::button::spawn_button_column;
+
+pub fn spawn(
+    commands: &mut Commands,
+    _meshes: &mut Assets<Mesh>,
+    _materials: &mut Assets<StandardMaterial>,
+) -> Option<MenuLayout> {
+    commands.spawn_menu((
+        Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            flex_direction: FlexDirection::Column,
+            row_gap: Val::Px(10.0),
+            ..default()
+        },
+        BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.3)),
+    ));
+
+    commands.spawn_menu((
+        Text::new("PAUSED"),
+        TextFont { font_size: 48.0, ..default() },
+        TextColor(Color::WHITE),
+    ));
+
+
+    let ids = spawn_button_column(commands, &[
+        ("Resume",),
+        ("Options",),
+        ("Quit",),
+    ]);
+
+    Some(MenuLayout::new().add_column(vec![
+        (ids[0], |w: &mut World| {
+            w.resource_mut::<Messages<crate::menu::ChangeMenu>>()
+                .write(crate::menu::ChangeMenu(menu_ids::INGAME_UI));
+        }),
+        (ids[1], |_w: &mut World| {
+            info!("Options not implemented");
+        }),
+        (ids[2], |w: &mut World| {
+            w.resource_mut::<Messages<AppExit>>()
+                .write(AppExit::Success);
+        }),
+    ]))
+}
+
+pub struct Pause;
+impl Menu for Pause {
+    fn id() -> MenuId { PAUSE }
+    fn data() -> MenuData {
+        MenuData {
+            spawn,
+            startup: vec![
+                MenuStartup::SetGameState(GameState::Paused),
+                MenuStartup::SetInputContext(InputContext::Menu),
+            ],
+        }
+    }
+}
